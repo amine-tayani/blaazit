@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import HomePage from './components/Homepage';
+import { UserProvider } from './UserContext';
+import db from './base'
 
 function App() {
+
+  const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    // Hook to handle the initial fetching of posts
+    db.collection("posts")
+      .orderBy("title")
+      .get()
+      .then((querySnapshot) => {
+        const data = querySnapshot.docs.map(doc => doc.data());
+        console.log(data)
+        setPosts(data);
+      });
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserProvider value={posts}>
+      <HomePage />
+    </UserProvider>
   );
 }
 
