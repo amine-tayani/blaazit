@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 import { Typography, List, Avatar, Space, Button } from 'antd';
-import UserContext from '../UserContext'
+import { MessageOutlined, UpOutlined, DownOutlined } from '@ant-design/icons';
+import { PostContext } from '../context/PostContext'
 import Sidebar from "./Sidebar";
 import Header from './Header'
-import { MessageOutlined, UpOutlined, DownOutlined } from '@ant-design/icons';
 
-const Homepage = () => {
+const Home = () => {
   const { Title } = Typography
-  const posts = useContext(UserContext)
+  const posts = useContext(PostContext)
 
 
   const IconText = ({ icon, text }) => (
@@ -48,7 +48,7 @@ const Homepage = () => {
               >
                 <List.Item.Meta
                   avatar={<Avatar src="https://styles.redditmedia.com/t5_2th52/styles/communityIcon_b37n2zfs8k861.png" />}
-                  title={<a>{post.title}</a>}
+                  title={<a href>{post.title}</a>}
                   description={post.description}
                 />
               </List.Item>
@@ -64,5 +64,5 @@ const Homepage = () => {
   )
 }
 
-export default Homepage
+export default Home
 

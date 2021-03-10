@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import HomePage from './components/Homepage';
-import { UserProvider } from './UserContext';
-import db from './base'
+import React from 'react';
+import Home from './components/Home';
+import { Route, Switch } from 'react-router-dom'
+import Login from './components/Login/Login';
+import SignUp from './components/Signup/SignUp';
+import { PostContextProvider } from './context/PostContext'
 
-function App() {
 
-  const [posts, setPosts] = useState([])
+const App = () => {
 
-  useEffect(() => {
-    // Hook to handle the initial fetching of posts
-    db.collection("posts")
-      .orderBy("title")
-      .get()
-      .then((querySnapshot) => {
-        const data = querySnapshot.docs.map(doc => doc.data());
-        console.log(data)
-        setPosts(data);
-      });
-  }, []);
+
   return (
-    <UserProvider value={posts}>
-      <HomePage />
-    </UserProvider>
+    <PostContextProvider>
+      <Switch>
+        <Route path="/signup" component={SignUp} />
+        <Route path="/" exact component={Home} />
+        <Route path="/login" component={Login} />
+        <>
+          <Home />
+        </>
+      </Switch>
+
+    </PostContextProvider>
   );
 }
 
