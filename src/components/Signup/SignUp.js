@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../Header';
-import { GoogleOutlined } from '@ant-design/icons'
+import google from '../../assets/svg/google-icon.svg';
 const SignUp = () => {
   return (
     <>
@@ -32,8 +32,8 @@ const SignUp = () => {
             Sign Up
           </button>
           <p className="mx-28 my-4 text-gray-400 text-xs font-bold">  --- OR SIGN UP </p>
-          <button className="bg-white text-gray-800  py-2 px-4 w-full inline-flex items-center border">
-            <GoogleOutlined />
+          <button className="bg-white text-gray-800  py-2 px-4 w-full inline-flex items-center shadow-md focus:outline-none">
+            <img src={google} className="h-4 w-4" alt="" />
             <span className="ml-14 font-black text-base">Sign up with google </span>
           </button>
         </form>

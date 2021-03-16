@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { BulbOutlined, DownOutlined, FireTwoTone, LoginOutlined, UserOutlined } from '@ant-design/icons';
+import { BulbOutlined, DownOutlined, FireTwoTone, LoginOutlined, UserOutlined, PlusOutlined } from '@ant-design/icons';
 import { Dropdown, Menu, Switch } from 'antd';
 import { Link } from 'react-router-dom';
 import Search from './search/Search';
+import AddPost from './post/AddPost'
 
 
 function Header() {
   const [visible, setVisible] = useState(false)
   const handleClickMenu = (e) => {
-    if (e.key === '2') {
+    if (e.key === '3') {
       setVisible(true)
     }
   }
@@ -23,9 +24,15 @@ function Header() {
         <Switch style={{ marginLeft: '12px' }} size="small" />
       </Menu.Item>
       <Menu.Item key="2" icon={<LoginOutlined style={{ fontSize: 20 }} />}>
-        Login
+        {/* need Link component here  */}
+          Login
       </Menu.Item>
-    </Menu>
+      <Menu.Item key="3" icon={<PlusOutlined style={{ fontSize: 20 }} />}>
+        <Link to="/post/add">
+          Add Post
+        </Link>
+      </Menu.Item>
+    </Menu >
   );
   return (
     <div>
@@ -48,12 +55,12 @@ function Header() {
             </Link>
             <Link to="/login">
               <button className="mr-4 lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-1 px-6 focus:outline-none rounded font-bold hover:bg-indigo-600 transition duration-200 ease-in-out">Login
-          </button>
+              </button>
             </Link>
             <Dropdown onVisibleChange={handleVisibleChange} visible={visible} trigger='click' overlay={menu}>
               <a href className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                 <UserOutlined style={{ fontSize: '1.5rem', marginRight: 8, color: '#fff' }} />
-                <DownOutlined style={{ fontSize: '0.5rem', color: '#fff' }} />
+                <DownOutlined style={{ fontSize: '0.5rem', color: '#fff', marginTop: '10px' }} />
               </a>
             </Dropdown>
           </nav>
