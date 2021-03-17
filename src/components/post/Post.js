@@ -3,14 +3,13 @@ import { MessageOutlined } from '@ant-design/icons';
 import UpVoteButton from '../buttons/UpVoteButton'
 import DownVoteButton from '../buttons/DownVoteButton'
 import { PostContext } from '../../context/PostContext'
-import { Typography, List, Avatar, Space } from 'antd';
+import { List, Avatar, Space } from 'antd';
 
 
 
 
 function Post() {
 
-  const { Title } = Typography
   const posts = useContext(PostContext)
 
   const IconText = ({ icon, text }) => (
@@ -21,13 +20,12 @@ function Post() {
   );
   return (
     <List
-      header={<Title level={4}>Popular</Title>}
       itemLayout="vertical"
       size="large"
       dataSource={posts}
       renderItem={post => (
         <List.Item
-          key={post.title}
+          key={post.id}
           actions={[
             <UpVoteButton votes={post.upVotes} />,
             <DownVoteButton votes={post.downVotes} />,
@@ -43,7 +41,7 @@ function Post() {
         >
           <List.Item.Meta
             avatar={<Avatar src="https://styles.redditmedia.com/t5_2th52/styles/communityIcon_b37n2zfs8k861.png" />}
-            title={<a href>{post.title}</a>}
+            title={post.title}
             description={post.description}
           />
         </List.Item>

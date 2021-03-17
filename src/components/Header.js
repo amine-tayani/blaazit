@@ -39,7 +39,7 @@ function Header() {
       <header className=" text-gray-600 font-sans bg-gray-900">
         <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
           <Link to="/">
-            <a href className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+            <a href="true" className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
               <FireTwoTone style={{ fontSize: '20px' }} />
               <span className="ml-3 text-xl font-bold text-gray-50">Blaaz</span><span className="text-xl font-bold text-red-300"> it</span>
             </a>
@@ -58,7 +58,7 @@ function Header() {
               </button>
             </Link>
             <Dropdown onVisibleChange={handleVisibleChange} visible={visible} trigger='click' overlay={menu}>
-              <a href className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+              <a href="true" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                 <UserOutlined style={{ fontSize: '1.5rem', marginRight: 8, color: '#fff' }} />
                 <DownOutlined style={{ fontSize: '0.5rem', color: '#fff', marginTop: '10px' }} />
               </a>

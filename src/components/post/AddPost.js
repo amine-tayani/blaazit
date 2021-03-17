@@ -5,7 +5,7 @@ import db from '../../base'
 
 const AddPost = () => {
   const { value: title, bind: bindTitle, reset: resetTitle } = useInput('');
-  const { value: desc, bind: bindDesc, reset: resetDesc } = useInput('');
+  const { value: description, bind: bindDesc, reset: resetDesc } = useInput('');
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -14,10 +14,14 @@ const AddPost = () => {
   };
 
   const handleSubmit = (e) => {
+    console.log(db)
     e.preventDefault()
-    const postRef = db.collection('posts').add({
+    db.settings({
+      timestampsInSnapshots: true
+    });
+    db.collection('posts').add({
       title: title,
-      descprition: desc
+      descprition: description
     })
     resetTitle()
     resetDesc()
@@ -51,7 +55,7 @@ const AddPost = () => {
             <label className="block uppercase tracking-wide text-gray-700 text-sm font-black mb-2" >
               Decription
               </label>
-            <textarea className="appearance-none w-full mb-6 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" {...bindDesc}>
+            <textarea className="appearance-none w-full mb-6 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" {...bindDesc} >
             </textarea>
           </div>
           <button type="submit" className="mr-4 lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-1 px-6 focus:outline-none rounded font-bold hover:bg-indigo-600 transition duration-200 ease-in-out">Create
