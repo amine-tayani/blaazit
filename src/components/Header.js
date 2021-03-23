@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import { BulbOutlined, DownOutlined, FireTwoTone, LoginOutlined, UserOutlined, PlusOutlined } from '@ant-design/icons';
+import { BulbOutlined, DownOutlined, FireTwoTone, LoginOutlined, UserOutlined } from '@ant-design/icons';
 import { Dropdown, Menu, Switch } from 'antd';
 import { Link } from 'react-router-dom';
 import Search from './search/Search';
-import AddPost from './post/AddPost'
-
 
 function Header() {
   const [visible, setVisible] = useState(false)
   const handleClickMenu = (e) => {
-    if (e.key === '3') {
+    if (e.key === '2') {
       setVisible(true)
     }
   }
@@ -26,11 +24,6 @@ function Header() {
       <Menu.Item key="2" icon={<LoginOutlined style={{ fontSize: 20 }} />}>
         {/* need Link component here  */}
           Login
-      </Menu.Item>
-      <Menu.Item key="3" icon={<PlusOutlined style={{ fontSize: 20 }} />}>
-        <Link to="/post/add">
-          Add Post
-        </Link>
       </Menu.Item>
     </Menu >
   );

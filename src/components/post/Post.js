@@ -5,9 +5,6 @@ import DownVoteButton from '../buttons/DownVoteButton'
 import { PostContext } from '../../context/PostContext'
 import { List, Avatar, Space } from 'antd';
 
-
-
-
 function Post() {
 
   const posts = useContext(PostContext)

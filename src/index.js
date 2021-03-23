@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { PostProvider } from "./context/PostContext";
+import { AuthProvider } from './context/authContext'
 import './index.css';
 import App from './App';
 
@@ -12,9 +12,9 @@ const rootElement = document.getElementById('root');
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <PostProvider>
+      <AuthProvider>
         <App />
-      </PostProvider>
+      </AuthProvider>
     </Router>
   </React.StrictMode>
   ,

@@ -200,9 +200,7 @@ Correct the inability to style clickable types in iOS and Safari.
 */
 
 button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
+[type='button'] {
   -webkit-appearance: button;
 }
 
@@ -961,6 +959,16 @@ video {
   color: rgba(252, 165, 165, var(--tw-text-opacity));
 }
 
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgba(220, 38, 38, var(--tw-text-opacity));
+}
+
+.text-red-800 {
+  --tw-text-opacity: 1;
+  color: rgba(153, 27, 27, var(--tw-text-opacity));
+}
+
 .uppercase {
   text-transform: uppercase;
 }
@@ -1074,6 +1082,9 @@ body {
 }
 
 @media (min-width: 640px) {
+  .sm\:inline {
+    display: inline;
+  }
 }
 
 @media (min-width: 768px) {

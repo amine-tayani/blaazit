@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
-import db from '../base'
+import { db } from '../base'
 
 export const PostContext = createContext()
 
@@ -14,7 +14,6 @@ export const PostProvider = ({ children }) => {
       .then((querySnapshot) => {
         const data = querySnapshot.docs.map((doc) => doc.data());
         setPosts(data)
-        console.log(data)
       });
   }, []);
   return (
