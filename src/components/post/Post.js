@@ -1,12 +1,13 @@
-import React, { useContext } from 'react'
-import { MessageOutlined } from '@ant-design/icons';
-import UpVoteButton from '../buttons/UpVoteButton'
-import DownVoteButton from '../buttons/DownVoteButton'
-import { PostContext } from '../../context/PostContext'
-import { List, Avatar, Space } from 'antd';
+import React, { useContext } from "react"
+import { MessageOutlined } from "@ant-design/icons"
+import UpVoteButton from "../buttons/UpVoteButton"
+import DownVoteButton from "../buttons/DownVoteButton"
+import { PostContext } from "../../context/PostContext"
+import List from "antd/es/list"
+import Avatar from "antd/es/avatar"
+import Space from "antd/es/space"
 
 function Post() {
-
   const posts = useContext(PostContext)
 
   const IconText = ({ icon, text }) => (
@@ -14,13 +15,13 @@ function Post() {
       {React.createElement(icon)}
       {text}
     </Space>
-  );
+  )
   return (
     <List
       itemLayout="vertical"
       size="large"
       dataSource={posts}
-      renderItem={post => (
+      renderItem={(post) => (
         <List.Item
           key={post.id}
           actions={[
@@ -37,14 +38,15 @@ function Post() {
           }
         >
           <List.Item.Meta
-            avatar={<Avatar src="https://styles.redditmedia.com/t5_2th52/styles/communityIcon_b37n2zfs8k861.png" />}
+            avatar={
+              <Avatar src="https://styles.redditmedia.com/t5_2th52/styles/communityIcon_b37n2zfs8k861.png" />
+            }
             title={post.title}
             description={post.description}
           />
         </List.Item>
       )}
     />
-
   )
 }
 
