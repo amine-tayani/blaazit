@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useHistory } from "react-router-dom"
 import { authContext } from "../../context/authContext"
@@ -7,15 +7,21 @@ import google from "../../assets/svg/google-icon.svg"
 
 const Login = () => {
   const { login } = useContext(authContext)
+  const [authError, setauthError] = useState("")
   const { register, handleSubmit, errors, getValues } = useForm()
   const history = useHistory()
 
   const handleLogin = async () => {
     const { email, password } = getValues(["email", "password"])
-    try {
-      await login(email, password)
-      history.push("/")
-    } catch (err) {}
+
+    await login(email, password)
+      .then(() => {
+        setauthError("")
+        history.push("/")
+      })
+      .catch((err) => {
+        setauthError(err.message)
+      })
   }
 
   const loginOptions = {
@@ -36,6 +42,14 @@ const Login = () => {
           <div className="flex justify-center">
             <h1 className="text-4xl">LOG IN </h1>
           </div>
+          {authError && (
+            <div
+              class="flex justify-centerfont-bold w-full px-6 py-3 rounded font-bold text-white bg-red-600 mb-3 mt-3"
+              role="alert"
+            >
+              {authError}
+            </div>
+          )}
           <div className="my-4">
             <label className="block uppercase tracking-wide text-gray-700 text-sm font-black mb-2">
               Email

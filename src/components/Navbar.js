@@ -1,25 +1,24 @@
 import { useState, useContext } from "react"
 import {
   BulbOutlined,
-  DownOutlined,
   FireTwoTone,
   LoginOutlined,
   UserOutlined,
-  LogoutOutlined,
+  PoweroffOutlined,
+  SettingOutlined,
 } from "@ant-design/icons"
 import Dropdown from "antd/es/dropdown"
 import Menu from "antd/es/menu"
 import Switch from "antd/es/switch"
 import { Link, useHistory } from "react-router-dom"
 import Search from "./search/Search"
-import { auth } from "../base"
 import { authContext } from "../context/authContext"
 
 const Navbar = () => {
-  const { logout } = useContext(authContext)
+  const { logout, state } = useContext(authContext)
   const history = useHistory()
   const [visible, setVisible] = useState(false)
-  const user = auth.currentUser
+  const user = state.user
 
   const handleLogout = async () => {
     try {
@@ -31,7 +30,7 @@ const Navbar = () => {
   }
 
   const handleClickMenu = (e) => {
-    if (e.key === "3") {
+    if (e.key === "5") {
       setVisible(true)
     }
   }
@@ -63,11 +62,13 @@ const Navbar = () => {
           <Menu.Item key="3" icon={<UserOutlined style={{ fontSize: 20 }} />}>
             {user.email.substring(0, user.email.lastIndexOf("@"))}
           </Menu.Item>
-
+          <Menu.Item key="4" icon={<SettingOutlined style={{ fontSize: 20 }} />}>
+            Setting
+          </Menu.Item>
           <Menu.Item
             onClick={handleLogout}
-            key="4"
-            icon={<LogoutOutlined style={{ fontSize: 20 }} />}
+            key="5"
+            icon={<PoweroffOutlined style={{ fontSize: 20 }} />}
           >
             Log Out
           </Menu.Item>
@@ -116,8 +117,11 @@ const Navbar = () => {
               overlay={menu}
             >
               <a href="true" className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-                <UserOutlined style={{ fontSize: "1.5rem", marginRight: 8, color: "#fff" }} />
-                <DownOutlined style={{ fontSize: "0.5rem", color: "#fff", marginTop: "10px" }} />
+                <div className="rounded-full bg-gray-500 border-2 p-3 relative flex items-center justify-center">
+                  <div className="absolute">
+                    <UserOutlined style={{ fontSize: "1.2rem", color: "#fff" }} />
+                  </div>
+                </div>
               </a>
             </Dropdown>
           </nav>
