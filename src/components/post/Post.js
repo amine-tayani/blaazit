@@ -8,7 +8,7 @@ import Avatar from "antd/es/avatar"
 import Space from "antd/es/space"
 
 function Post() {
-  const posts = useContext(PostContext)
+  const { posts, loading } = useContext(PostContext)
 
   const IconText = ({ icon, text }) => (
     <Space>
@@ -18,6 +18,7 @@ function Post() {
   )
   return (
     <List
+      loading={loading}
       itemLayout="vertical"
       size="large"
       dataSource={posts}

@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useHistory } from "react-router-dom"
 import { authContext } from "../../context/authContext"
+import { validation } from "./validation"
 import Navbar from "../Navbar"
 import google from "../../assets/svg/google-icon.svg"
 
@@ -15,25 +16,19 @@ const Login = () => {
     const { email, password } = getValues(["email", "password"])
 
     await login(email, password)
-      .then(() => {
-        setauthError("")
+      .then((res) => {
+        console.log(res)
         history.push("/")
       })
       .catch((err) => {
-        setauthError(err.message)
+        if (err.code === "auth/user-not-found") {
+          setauthError("This user does not exist.Try again")
+        } else {
+          setauthError("That password was incorrect.")
+        }
       })
   }
 
-  const loginOptions = {
-    email: { required: "* Email is required" },
-    password: {
-      required: "* Password is required",
-      minLength: {
-        value: 8,
-        message: "* Password must have at least 8 characters",
-      },
-    },
-  }
   return (
     <>
       <Navbar />
@@ -57,11 +52,11 @@ const Login = () => {
             <input
               className="appearance-none w-full mb-3 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               name="email"
-              type="email"
+              type="text"
               placeholder="sami.outlandish@gmail.com"
-              ref={register(loginOptions.email)}
+              ref={register(validation.email)}
             />
-            <p className=" block sm:inline text-red-600 mt-3 font-bold">
+            <p className="text-xs block sm:inline text-red-700 mt-3 font-bold">
               {errors.email && errors.email.message}
             </p>
           </div>
@@ -74,13 +69,13 @@ const Login = () => {
               type="password"
               name="password"
               placeholder="******************"
-              ref={register(loginOptions.password)}
+              ref={register(validation.password)}
             />
-            <p className=" block sm:inline text-red-600 mt-3 font-bold">
+            <p className="text-xs block sm:inline text-red-700 mt-3 font-bold">
               {errors.password && errors.password.message}
             </p>
           </div>
-          <button className="bg-green-400  w-full text-white font-black text-base py-2 px-4 rounded">
+          <button className="bg-green-400 hover:bg-green-700 w-full text-white font-black text-base py-2 px-4 rounded focus:outline-none">
             Sign In
           </button>
           <p className="mx-32 my-4 text-gray-400 text-xs font-bold">OR LOG IN </p>

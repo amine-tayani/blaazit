@@ -117,9 +117,9 @@ const Navbar = () => {
               overlay={menu}
             >
               <a href="true" className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-                <div className="rounded-full bg-gray-500 border-2 p-3 relative flex items-center justify-center">
+                <div className="rounded-full bg-gray-700 border-2 p-3 relative flex items-center justify-center">
                   <div className="absolute">
-                    <UserOutlined style={{ fontSize: "1.2rem", color: "#fff" }} />
+                    <UserOutlined style={{ fontSize: "1.3rem", color: "#fff" }} />
                   </div>
                 </div>
               </a>

@@ -2,6 +2,8 @@ import { useContext, useState } from "react"
 import { useForm } from "react-hook-form"
 import { authContext } from "../../context/authContext"
 import { useHistory } from "react-router-dom"
+import { validation } from "./validation"
+import { db } from "../../base"
 import Navbar from "../Navbar"
 import google from "../../assets/svg/google-icon.svg"
 
@@ -12,28 +14,19 @@ const SignUp = () => {
   const history = useHistory()
 
   const handleRegistration = async () => {
-    const { email, password } = getValues(["email", "password", "username"])
+    const { email, password, username } = getValues(["email", "password", "username"])
 
     await signup(email, password)
       .then(() => {
-        setauthError("")
         history.push("/")
       })
       .catch((err) => {
-        setauthError(err.message)
+        if (err.code === "auth/email-already-in-use") {
+          setauthError("Email is already in use by an existing user")
+        } else {
+          setauthError("something went wrong. refresh and try again")
+        }
       })
-  }
-
-  const signupOptions = {
-    username: { required: "* username is required" },
-    email: { required: "* Email is required" },
-    password: {
-      required: "* Password is required",
-      minLength: {
-        value: 8,
-        message: "* Password must have at least 8 characters",
-      },
-    },
   }
 
   return (
@@ -64,9 +57,9 @@ const SignUp = () => {
               type="text"
               placeholder="sami.outlandish"
               name="username"
-              ref={register(signupOptions.username)}
+              ref={register(validation.username)}
             />
-            <p className=" block sm:inline text-red-600 mt-3 font-bold">
+            <p className=" text-xs block sm:inline text-red-700 mt-3 font-bold">
               {errors.username && errors.username.message}
             </p>
           </div>
@@ -76,12 +69,12 @@ const SignUp = () => {
             </label>
             <input
               className="appearance-none w-full mb-3 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              type="email"
+              type="text"
               placeholder="sami.outlandish@gmail.com"
               name="email"
-              ref={register(signupOptions.email)}
+              ref={register(validation.email)}
             />
-            <p className="block sm:inline text-red-600 mt-3 font-bold">
+            <p className="text-xs block sm:inline text-red-700 mt-3 font-bold">
               {errors.email && errors.email.message}
             </p>
           </div>
@@ -94,9 +87,9 @@ const SignUp = () => {
               type="password"
               placeholder="******************"
               name="password"
-              ref={register(signupOptions.password)}
+              ref={register(validation.password)}
             />
-            <p className="block sm:inline text-red-600 font-bold mt-3">
+            <p className="text-xs block sm:inline text-red-600 font-bold mt-3">
               {errors.password && errors.password.message}
             </p>
           </div>
