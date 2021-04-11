@@ -3,14 +3,15 @@ import { useForm } from "react-hook-form"
 import { authContext } from "../../context/authContext"
 import { useHistory } from "react-router-dom"
 import { validation } from "./validation"
-import { db } from "../../base"
 import Navbar from "../Navbar"
 import google from "../../assets/svg/google-icon.svg"
 
 const SignUp = () => {
-  const { signup } = useContext(authContext)
+  const { signup, signInWithGoogle } = useContext(authContext)
   const [authError, setauthError] = useState("")
-  const { register, handleSubmit, errors, getValues } = useForm()
+  const { register, handleSubmit, errors, getValues } = useForm({
+    mode: "onChange",
+  })
   const history = useHistory()
 
   const handleRegistration = async () => {
@@ -18,6 +19,7 @@ const SignUp = () => {
 
     await signup(email, password)
       .then(() => {
+        console.log(username)
         history.push("/")
       })
       .catch((err) => {
@@ -59,7 +61,7 @@ const SignUp = () => {
               name="username"
               ref={register(validation.username)}
             />
-            <p className=" text-xs block sm:inline text-red-700 mt-3 font-bold">
+            <p className=" text-xs block sm:inline text-red-600 mt-3 font-bold">
               {errors.username && errors.username.message}
             </p>
           </div>
@@ -74,7 +76,7 @@ const SignUp = () => {
               name="email"
               ref={register(validation.email)}
             />
-            <p className="text-xs block sm:inline text-red-700 mt-3 font-bold">
+            <p className="text-xs block sm:inline text-red-600 mt-3 font-bold">
               {errors.email && errors.email.message}
             </p>
           </div>
@@ -97,7 +99,10 @@ const SignUp = () => {
             Sign Up
           </button>
           <p className="mx-28 my-4 text-gray-400 text-xs font-bold">--- OR SIGN UP</p>
-          <button className="bg-white text-gray-800 mb-8 py-2 px-4 w-full inline-flex items-center shadow-md focus:outline-none">
+          <button
+            onClick={signInWithGoogle}
+            className="bg-white text-gray-800 mb-8 py-2 px-4 w-full inline-flex items-center shadow-md focus:outline-none"
+          >
             <img src={google} className="h-4 w-4" alt="" />
             <span className="ml-14 font-black text-base">Sign up with google </span>
           </button>

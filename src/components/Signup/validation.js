@@ -23,5 +23,10 @@ export const validation = {
       value: 8,
       message: "*Password must be at least 8 characters long.",
     },
+    pattern: {
+      value: !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$*])/,
+      message:
+        "*Password should contain at least one uppercase letter, lowercase letter, digit, and special symbol.",
+    },
   },
 }

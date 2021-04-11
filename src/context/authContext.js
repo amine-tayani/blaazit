@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      user ? dispatch({ type: "SET_USER", user: user }) : dispatch({ type: "SET_USER", user: null })
+      dispatch({ type: "SET_USER", user: user })
     })
     return () => unsubscribe
   }, [])
