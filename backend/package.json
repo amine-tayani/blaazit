@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "launch": "concurrently \"npm run dev\" \"cd ../ && npm start\""
+  },
+  "keywords": [],
+  "author": "Amine tayani",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^6.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "firebase-admin": "^9.7.0",
+    "mongoose": "^5.12.5",
+    "nodemon": "^2.0.7"
+  }
+}
