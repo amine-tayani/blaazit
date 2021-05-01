@@ -9,7 +9,11 @@ module.exports = {
       sans: ["Quicksand", "sans-serif"],
       serif: ["Montserrat", "serif"],
     },
-    extend: {},
+    extend: {
+      colors: {
+        darkestgray: "#18181b",
+      },
+    },
   },
   variants: {
     extend: {},

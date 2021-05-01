@@ -1,10 +1,12 @@
 import { useContext, useState } from "react"
+import axios from "axios"
 import { useForm } from "react-hook-form"
 import { useHistory } from "react-router-dom"
 import { authContext } from "../../context/authContext"
 import { validation } from "./validation"
 import Navbar from "../Navbar"
 import google from "../../assets/svg/google-icon.svg"
+import { auth } from "../../base"
 
 const Login = () => {
   const { login } = useContext(authContext)
@@ -16,9 +18,16 @@ const Login = () => {
     const { email, password } = getValues(["email", "password"])
 
     await login(email, password)
-      .then((res) => {
-        console.log(res)
-        history.push("/")
+      .then(() => {
+        if (auth.currentUser) {
+          auth.currentUser.getIdToken().then((tokenID) => {
+            console.log(tokenID)
+            axios.post(`http://localhost:5000/api/users/${tokenID}`, tokenID, {
+              headers: { Authorization: `Bearer ${tokenID}` },
+            })
+            history.push("/")
+          })
+        }
       })
       .catch((err) => {
         if (err.code === "auth/user-not-found") {
@@ -32,7 +41,7 @@ const Login = () => {
   return (
     <>
       <Navbar />
-      <div className="flex h-full my-12 ">
+      <div className="flex h-full my-32 ">
         <form onSubmit={handleSubmit(handleLogin)} className=" w-full max-w-xs m-auto font-sans">
           <div className="flex justify-center">
             <h1 className="text-4xl">LOG IN </h1>

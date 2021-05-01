@@ -19,7 +19,6 @@ const SignUp = () => {
 
     await signup(email, password)
       .then(() => {
-        console.log(username)
         history.push("/")
       })
       .catch((err) => {
@@ -34,7 +33,7 @@ const SignUp = () => {
   return (
     <>
       <Navbar />
-      <div className="flex h-full my-12 ">
+      <div className="flex h-full my-32 ">
         <form
           onSubmit={handleSubmit(handleRegistration)}
           className=" w-full max-w-xs m-auto font-sans"

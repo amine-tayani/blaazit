@@ -1,22 +1,24 @@
 import React from "react"
 import Sidebar from "./Sidebar"
 import Navbar from "./Navbar"
-import Post from "./post/Post"
+import PostFeed from "./post/PostFeed"
 
 const Home = () => {
   return (
-    <div className="flex flex-col h-screen">
+    <>
       <Navbar />
-      <div className="grid grid-rows-3 grid-flow-col gap-14 flex-1 overflow-y-auto">
-        <div className="col-start-1">
+      <div className="grid grid-cols-6 grid-rows-1">
+        <div className="col-span-1">
           <Sidebar />
         </div>
-        <div className="col-start-2 font-sans mt-8">
-          <Post />
+        <div className="col-span-3 bg-gray-200">
+          <PostFeed />
         </div>
-        <div className="row-start-1 row-end-3 "></div>
+        <div className="col-span-2">
+          <div className="bg-indigo-800 h-screen w-full"></div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
