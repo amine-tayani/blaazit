@@ -1,43 +1,44 @@
-import { useContext, useState } from "react"
+import { useState, useContext } from "react"
 import { useForm } from "react-hook-form"
-import { authContext } from "../../context/authContext"
 import { useHistory } from "react-router-dom"
+import axios from "axios"
+import userContext from "../../../context/authContext"
 import { validation } from "./validation"
-import Navbar from "../Navbar"
-import google from "../../assets/svg/google-icon.svg"
+import Navbar from "../../Navbar"
 
 const SignUp = () => {
-  const { signup, signInWithGoogle } = useContext(authContext)
+  const { setUserData } = useContext(userContext)
   const [authError, setauthError] = useState("")
   const { register, handleSubmit, errors, getValues } = useForm({
     mode: "onChange",
   })
   const history = useHistory()
 
-  const handleRegistration = async () => {
+  const createAccount = async () => {
     const { email, password, username } = getValues(["email", "password", "username"])
-
-    await signup(email, password)
-      .then(() => {
-        history.push("/")
+    try {
+      const newUser = { email, password, username }
+      await axios.post("http://localhost:5000/api/users/register", newUser)
+      const loginResponse = await axios.post("http://localhost:5000/api/users/login", {
+        email,
+        password,
       })
-      .catch((err) => {
-        if (err.code === "auth/email-already-in-use") {
-          setauthError("Email is already in use by an existing user")
-        } else {
-          setauthError("something went wrong. refresh and try again")
-        }
+      setUserData({
+        token: loginResponse.data.token,
+        user: loginResponse.data.user,
       })
+      localStorage.setItem("auth-token", loginResponse.data.token)
+      history.push("/")
+    } catch (err) {
+      err.response.data.msg && setauthError(err.response.data.msg)
+    }
   }
 
   return (
     <>
       <Navbar />
       <div className="flex h-full my-32 ">
-        <form
-          onSubmit={handleSubmit(handleRegistration)}
-          className=" w-full max-w-xs m-auto font-sans"
-        >
+        <form onSubmit={handleSubmit(createAccount)} className=" w-full max-w-xs m-auto font-sans">
           <div className="flex justify-center mb-6">
             <h1 className="text-4xl">SIGN UP </h1>
           </div>
@@ -97,14 +98,17 @@ const SignUp = () => {
           <button className="bg-blue-700 w-full text-white font-black text-base py-2 px-4 rounded ">
             Sign Up
           </button>
-          <p className="mx-28 my-4 text-gray-400 text-xs font-bold">--- OR SIGN UP</p>
-          <button
-            onClick={signInWithGoogle}
-            className="bg-white text-gray-800 mb-8 py-2 px-4 w-full inline-flex items-center shadow-md focus:outline-none"
-          >
-            <img src={google} className="h-4 w-4" alt="" />
-            <span className="ml-14 font-black text-base">Sign up with google </span>
-          </button>
+          <div className="font-medium text-sm flex justify-between p-2 items-center my-4">
+            <p className="text-gray-600 p-2 text-center text-sm font-bold">
+              Do you have an account?
+            </p>
+            <a
+              href="/login"
+              className=" bg-green-400 hover:bg-green-700 w-1/3 text-white font-black text-base py-2 px-4 rounded focus:outline-none"
+            >
+              Login
+            </a>
+          </div>
         </form>
       </div>
     </>

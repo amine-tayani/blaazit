@@ -12,14 +12,6 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("blaazit/build"))
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"))
-  })
-}
-
 app.use(express.urlencoded({ extended: false }))
 
 app.use("/api/posts", postRoutes)
@@ -28,8 +20,12 @@ app.use("/api/users", userRoutes)
 const PORT = process.env.PORT || 5000
 
 mongoose
-  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() =>
-    app.listen(PORT, () => console.log(`Server Running on Port: http://localhost:${PORT}`))
-  )
+  .connect(CONNECTION_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .then(() => console.log("database connected successfully "))
   .catch((error) => console.log(`${error} did not connect`))
+
+app.listen(PORT, () => console.log(`Server Running on Port: http://localhost:${PORT}`))
