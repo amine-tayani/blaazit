@@ -1,36 +1,40 @@
-import { useState, useContext } from "react"
+import { useContext } from "react"
 import { useForm } from "react-hook-form"
 import { useHistory } from "react-router-dom"
 import axios from "axios"
-import userContext from "../../../context/authContext"
+import { userContext } from "../../../context/authContext"
 import { validation } from "./validation"
 import Navbar from "../../Navbar"
 
 const SignUp = () => {
-  const { setUserData } = useContext(userContext)
-  const [authError, setauthError] = useState("")
-  const { register, handleSubmit, errors, getValues } = useForm({
-    mode: "onChange",
-  })
-  const history = useHistory()
+  const { state, dispatch } = useContext(userContext)
+  const { register, handleSubmit, errors, getValues } = useForm()
+  const router = useHistory()
 
   const createAccount = async () => {
     const { email, password, username } = getValues(["email", "password", "username"])
     try {
       const newUser = { email, password, username }
-      await axios.post("http://localhost:5000/api/users/register", newUser)
-      const loginResponse = await axios.post("http://localhost:5000/api/users/login", {
+      await axios.post(`${process.env.REACT_APP_API_SERVER}/users/register`, newUser)
+      const loginResponse = await axios.post(`${process.env.REACT_APP_API_SERVER}/users/login`, {
         email,
         password,
       })
-      setUserData({
+
+      dispatch({
+        type: "CREATE_ACCOUNT",
         token: loginResponse.data.token,
         user: loginResponse.data.user,
       })
+
       localStorage.setItem("auth-token", loginResponse.data.token)
-      history.push("/")
+      router.push("/")
     } catch (err) {
-      err.response.data.msg && setauthError(err.response.data.msg)
+      if (err.response.data.msg) {
+        dispatch({ type: "ERROR_CREATE_ACCOUNT", error: err.response.data.msg })
+      } else {
+        dispatch({ type: "ERROR_CREATE_ACCOUNT", error: "" })
+      }
     }
   }
 
@@ -42,12 +46,12 @@ const SignUp = () => {
           <div className="flex justify-center mb-6">
             <h1 className="text-4xl">SIGN UP </h1>
           </div>
-          {authError && (
+          {state.userError && (
             <div
               class="flex justify-centerfont-bold w-full px-6 py-3 rounded font-bold text-white bg-red-600"
               role="alert"
             >
-              {authError}
+              {state.userError}
             </div>
           )}
           <div className="my-4">

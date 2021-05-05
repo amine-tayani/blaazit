@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { Link } from "react-router-dom"
 import { AiTwotoneFire } from "react-icons/ai"
 import Search from "./search/Search"
-import userContext from "../context/authContext"
+import { userContext } from "../context/authContext"
 import Menu from "../components/Menu"
 
 const Navbar = () => {

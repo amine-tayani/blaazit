@@ -1,30 +1,35 @@
-import { useState, useContext } from "react"
+import { useContext } from "react"
 import axios from "axios"
 import { useForm } from "react-hook-form"
 import { useHistory } from "react-router-dom"
-import UserContext from "../../../context/authContext"
+import { userContext } from "../../../context/authContext"
 import { validation } from "./validation"
 import Navbar from "../../Navbar"
 const Login = () => {
-  const [authError, setauthError] = useState("")
-  const { setUserData } = useContext(UserContext)
+  const { state, dispatch } = useContext(userContext)
   const { register, handleSubmit, errors, getValues } = useForm()
-  const history = useHistory()
+  const router = useHistory()
 
   const handleLogin = async () => {
     const { email, password } = getValues(["email", "password"])
     try {
-      const loginUser = { email, password }
-      const loginResponse = await axios.post("http://localhost:5000/api/users/login", loginUser)
-      console.log(loginResponse)
-      setUserData({
-        token: loginResponse.data.token,
+      const userInfos = { email, password }
+      const loginResponse = await axios.post(
+        `${process.env.REACT_APP_API_SERVER}/users/login`,
+        userInfos
+      )
+      dispatch({
+        type: "LOGIN_TO_ACCOUNT",
         user: loginResponse.data.user,
+        token: loginResponse.data.token,
       })
       localStorage.setItem("auth-token", loginResponse.data.token)
-      history.push("/")
+      router.push("/")
     } catch (err) {
-      err.response.data.msg && setauthError(err.response.data.msg)
+      console.log(err.response)
+      if (err.response.data.msg) {
+        dispatch({ type: "ERROR_LOGIN_TO_ACCOUNT", error: err.response.data.msg })
+      }
     }
   }
 
@@ -36,7 +41,7 @@ const Login = () => {
           <div className="flex justify-center">
             <h1 className="text-4xl">LOG IN </h1>
           </div>
-          {authError && (
+          {state.userError && (
             <>
               <div class="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <div class="flex items-center justify-center w-12 bg-red-500">
@@ -52,7 +57,7 @@ const Login = () => {
                 <div class="px-4 py-2 -mx-3">
                   <div class="mx-3">
                     <span class="font-semibold text-red-500 dark:text-red-400">Error</span>
-                    <p class="text-sm text-gray-600 dark:text-gray-200">{authError}</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-200">{state.userError}</p>
                   </div>
                 </div>
               </div>

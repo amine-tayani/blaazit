@@ -38,7 +38,7 @@ export const loginIntoAccount = async (req, res) => {
     if (!user)
       return res.status(400).json({ msg: "No account with this email has been registered." })
     const isMatch = await bcrypt.compare(password, user.password)
-    if (!isMatch) return res.status(400).json({ msg: "You have entered invalid data." })
+    if (!isMatch) return res.status(400).json({ msg: "Email or password is incorrect." })
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
     res.json({
       token,
@@ -56,9 +56,9 @@ export const loginIntoAccount = async (req, res) => {
 export const checkIftokenIsValid = async (req, res) => {
   try {
     const token = req.header("x-auth-token")
-    if (!token) return res.json(false)
+    if (!token) return res.json("no token found")
     const verified = jwt.verify(token, process.env.JWT_SECRET)
-    if (!verified) return res.json(false)
+    if (!verified) return res.json("token not valid")
     const user = await User.findById(verified.id)
     if (!user) return res.json(false)
     return res.json(true)
@@ -72,7 +72,8 @@ export const checkIftokenIsValid = async (req, res) => {
 export const getUser = async (req, res) => {
   const user = await User.findById(req.user)
   res.json({
-    displayName: user.displayName,
+    username: user.username,
+    email: user.email,
     id: user._id,
   })
 }
