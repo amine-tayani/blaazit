@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom"
 import { userContext } from "../../../context/authContext"
 import { validation } from "./validation"
 import Navbar from "../../Navbar"
+import Alert from "../../shared/Alert"
 const Login = () => {
   const { state, dispatch } = useContext(userContext)
   const { register, handleSubmit, errors, getValues } = useForm()
@@ -14,6 +15,7 @@ const Login = () => {
     const { email, password } = getValues(["email", "password"])
     try {
       const userInfos = { email, password }
+      dispatch({ type: "CHANGE_LOADING", loading: true })
       const loginResponse = await axios.post(
         `${process.env.REACT_APP_API_SERVER}/users/login`,
         userInfos
@@ -23,11 +25,13 @@ const Login = () => {
         user: loginResponse.data.user,
         token: loginResponse.data.token,
       })
+      dispatch({ type: "CHANGE_LOADING", loading: false })
       localStorage.setItem("auth-token", loginResponse.data.token)
       router.push("/")
     } catch (err) {
       console.log(err.response)
       if (err.response.data.msg) {
+        dispatch({ type: "CHANGE_LOADING", loading: false })
         dispatch({ type: "ERROR_LOGIN_TO_ACCOUNT", error: err.response.data.msg })
       }
     }
@@ -41,28 +45,8 @@ const Login = () => {
           <div className="flex justify-center">
             <h1 className="text-4xl">LOG IN </h1>
           </div>
-          {state.userError && (
-            <>
-              <div class="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
-                <div class="flex items-center justify-center w-12 bg-red-500">
-                  <svg
-                    class="w-6 h-6 text-white fill-current"
-                    viewBox="0 0 40 40"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z" />
-                  </svg>
-                </div>
+          {state.userError && <Alert message={state.userError} />}
 
-                <div class="px-4 py-2 -mx-3">
-                  <div class="mx-3">
-                    <span class="font-semibold text-red-500 dark:text-red-400">Error</span>
-                    <p class="text-sm text-gray-600 dark:text-gray-200">{state.userError}</p>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
           <div className="my-4">
             <label className="block uppercase tracking-wide text-gray-700 text-sm font-black mb-2">
               Email
@@ -79,11 +63,16 @@ const Login = () => {
             </p>
           </div>
           <div className="my-4">
-            <label className="block uppercase tracking-wide text-gray-700 text-sm font-black mb-2">
-              Password
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="block uppercase tracking-wide text-gray-700 text-sm font-black ">
+                Password
+              </label>
+              <a className="text-blue-500 text-sm font-bold hover:text-blue-700 " href="#forgot">
+                Forgot password?
+              </a>
+            </div>
             <input
-              className="appearance-none w-full mb-3 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none w-full mb-3 mt-2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               type="password"
               name="password"
               placeholder="******************"
@@ -96,19 +85,10 @@ const Login = () => {
           <button className="bg-green-400 hover:bg-green-700 w-full text-white font-black text-base py-2 px-4 rounded focus:outline-none">
             Sign In
           </button>
-          <div class="flex justify-center p-4">
-            <a href="#!" class=" text-gray-600 p-1 text-center text-sm font-medium">
-              Forgot your password ?
-            </a>
-          </div>
-          <div className="font-medium text-sm flex justify-between p-2 items-center">
-            <p className="text-gray-600 p-2 text-center text-sm font-bold">
-              Don't have an account?
-            </p>
-            <a
-              href="/signup"
-              className=" bg-indigo-700 hover:bg-indigo-900 w-1/3 text-white font-black text-base py-2 px-4 rounded focus:outline-none"
-            >
+
+          <div className="font-medium text-sm flex justify-center items-center my-4 space-x-1">
+            <p className="text-gray-600 text-center text-sm font-bold">Don't have an account?</p>
+            <a href="/signup" className=" text-blue-500 text-sm font-bold hover:text-blue-700">
               Sign Up
             </a>
           </div>

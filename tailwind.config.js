@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       colors: {
         darkestgray: "#18181b",
+        critical: "#ff5e57",
       },
     },
   },

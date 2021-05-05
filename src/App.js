@@ -1,18 +1,21 @@
+import { useContext } from "react"
 import { Route, Switch } from "react-router-dom"
 import Home from "./components/Home"
 import Login from "./components/auth/Login/Login"
 import SignUp from "./components/auth/Signup/SignUp"
-import { UserProvider } from "./context/authContext"
+import { userContext } from "./context/authContext"
+import Spinner from "./components/shared/Spinner"
 
 const App = () => {
+  const { state } = useContext(userContext)
+  if (state.loading) return <Spinner />
+
   return (
-    <UserProvider>
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={SignUp} />
-      </Switch>
-    </UserProvider>
+    <Switch>
+      <Route path="/" exact component={Home} />
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={SignUp} />
+    </Switch>
   )
 }
 

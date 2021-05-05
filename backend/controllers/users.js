@@ -10,9 +10,10 @@ export const createAccount = async (req, res) => {
   try {
     let { username, email, password } = req.body
     // validate existing account
-    const existingUser = await User.findOne({ email: email })
-    if (existingUser)
-      return res.status(400).json({ msg: "An account with this email already exists." })
+    const existingEmail = await User.findOne({ email: email })
+    if (existingEmail) return res.status(400).json({ msg: "*This account already exists." })
+    const existingUsername = await User.findOne({ username: username })
+    if (existingUsername) return res.status(400).json({ msg: "*This username is unavailable." })
     if (!username) username = email
     const salt = await bcrypt.genSalt()
     const passwordHash = await bcrypt.hash(password, salt)
@@ -35,8 +36,7 @@ export const loginIntoAccount = async (req, res) => {
     const { email, password } = req.body
     // validate
     const user = await User.findOne({ email: email })
-    if (!user)
-      return res.status(400).json({ msg: "No account with this email has been registered." })
+    if (!user) return res.status(400).json({ msg: "No such account has been found." })
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) return res.status(400).json({ msg: "Email or password is incorrect." })
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)

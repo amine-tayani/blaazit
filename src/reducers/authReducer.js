@@ -6,6 +6,7 @@ import {
   RESET_PASSWORD,
   CHECK_IF_IS_LOGGED,
   LOGOUT,
+  CHANGE_LOADING,
 } from "../actions/auth"
 
 const authReducer = (state, action) => {
@@ -21,20 +22,22 @@ const authReducer = (state, action) => {
       return {
         ...state,
         userError: action.error,
-        loading: false,
       }
     case LOGIN_TO_ACCOUNT:
       return {
         ...state,
         user: action.user,
         userToken: action.token,
-        loading: false,
+      }
+    case CHANGE_LOADING:
+      return {
+        ...state,
+        loading: action.loading,
       }
     case ERROR_LOGIN_TO_ACCOUNT:
       return {
         ...state,
         userError: action.error,
-        loading: false,
       }
     case CHECK_IF_IS_LOGGED:
       return {
@@ -49,7 +52,6 @@ const authReducer = (state, action) => {
         user: action.user,
         userToken: action.token,
         userError: action.error,
-        loading: false,
       }
     case RESET_PASSWORD:
       return {}

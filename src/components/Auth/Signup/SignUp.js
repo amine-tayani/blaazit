@@ -5,6 +5,7 @@ import axios from "axios"
 import { userContext } from "../../../context/authContext"
 import { validation } from "./validation"
 import Navbar from "../../Navbar"
+import Alert from "../../shared/Alert"
 
 const SignUp = () => {
   const { state, dispatch } = useContext(userContext)
@@ -15,6 +16,7 @@ const SignUp = () => {
     const { email, password, username } = getValues(["email", "password", "username"])
     try {
       const newUser = { email, password, username }
+      dispatch({ type: "CHANGE_LOADING", loading: true })
       await axios.post(`${process.env.REACT_APP_API_SERVER}/users/register`, newUser)
       const loginResponse = await axios.post(`${process.env.REACT_APP_API_SERVER}/users/login`, {
         email,
@@ -26,11 +28,12 @@ const SignUp = () => {
         token: loginResponse.data.token,
         user: loginResponse.data.user,
       })
-
+      dispatch({ type: "CHANGE_LOADING", loading: false })
       localStorage.setItem("auth-token", loginResponse.data.token)
       router.push("/")
     } catch (err) {
       if (err.response.data.msg) {
+        dispatch({ type: "CHANGE_LOADING", loading: false })
         dispatch({ type: "ERROR_CREATE_ACCOUNT", error: err.response.data.msg })
       } else {
         dispatch({ type: "ERROR_CREATE_ACCOUNT", error: "" })
@@ -46,14 +49,8 @@ const SignUp = () => {
           <div className="flex justify-center mb-6">
             <h1 className="text-4xl">SIGN UP </h1>
           </div>
-          {state.userError && (
-            <div
-              class="flex justify-centerfont-bold w-full px-6 py-3 rounded font-bold text-white bg-red-600"
-              role="alert"
-            >
-              {state.userError}
-            </div>
-          )}
+          {state.userError && <Alert message={state.userError} />}
+
           <div className="my-4">
             <label className="block uppercase tracking-wide text-gray-700 text-sm font-black mb-2">
               Username
@@ -65,7 +62,7 @@ const SignUp = () => {
               name="username"
               ref={register(validation.username)}
             />
-            <p className=" text-xs block sm:inline text-red-600 mt-3 font-bold">
+            <p className="text-xs block sm:inline text-red-600 mt-3 font-bold">
               {errors.username && errors.username.message}
             </p>
           </div>
@@ -85,11 +82,11 @@ const SignUp = () => {
             </p>
           </div>
           <div className="my-4">
-            <label className="block uppercase tracking-wide text-gray-700 text-sm font-black mb-2">
+            <label className="block uppercase tracking-wide text-gray-700 text-sm font-black ">
               Password
             </label>
             <input
-              className="appearance-none w-full mb-3 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none w-full mb-3 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
               type="password"
               placeholder="******************"
               name="password"
@@ -102,14 +99,9 @@ const SignUp = () => {
           <button className="bg-blue-700 w-full text-white font-black text-base py-2 px-4 rounded ">
             Sign Up
           </button>
-          <div className="font-medium text-sm flex justify-between p-2 items-center my-4">
-            <p className="text-gray-600 p-2 text-center text-sm font-bold">
-              Do you have an account?
-            </p>
-            <a
-              href="/login"
-              className=" bg-green-400 hover:bg-green-700 w-1/3 text-white font-black text-base py-2 px-4 rounded focus:outline-none"
-            >
+          <div className="font-medium text-sm flex justify-center items-center my-8 space-x-1">
+            <p className="text-gray-600 text-center text-sm font-bold">Do you have an account?</p>
+            <a href="/login" className="text-blue-500 text-sm font-bold hover:text-blue-700">
               Login
             </a>
           </div>
