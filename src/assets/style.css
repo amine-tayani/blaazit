@@ -1033,16 +1033,16 @@ video {
   margin-left: 4rem;
 }
 
+.mr-20 {
+  margin-right: 5rem;
+}
+
 .mt-32 {
   margin-top: 8rem;
 }
 
 .mr-auto {
   margin-right: auto;
-}
-
-.-mr-28 {
-  margin-right: -7rem;
 }
 
 .max-w-xs {

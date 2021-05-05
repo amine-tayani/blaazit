@@ -22,7 +22,7 @@ const Navbar = () => {
             </div>
           </Link>
           {/* search compononent */}
-          <div className="mx-auto -mr-28 font-serif ">
+          <div className="flex mx-auto mr-20">
             <Search />
           </div>
 
