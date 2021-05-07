@@ -2,11 +2,13 @@ import { useContext } from "react"
 import axios from "axios"
 import { useForm } from "react-hook-form"
 import { useHistory } from "react-router-dom"
+import Cookies from "universal-cookie"
 import { userContext } from "../../../context/authContext"
 import { validation } from "./validation"
 import Navbar from "../../Navbar"
 import Alert from "../../shared/Alert"
 const Login = () => {
+  const cookies = new Cookies()
   const { state, dispatch } = useContext(userContext)
   const { register, handleSubmit, errors, getValues } = useForm()
   const router = useHistory()
@@ -16,17 +18,19 @@ const Login = () => {
     try {
       const userInfos = { email, password }
       dispatch({ type: "CHANGE_LOADING", loading: true })
-      const loginResponse = await axios.post(
-        `${process.env.REACT_APP_API_SERVER}/users/login`,
-        userInfos
-      )
+      const loginResponse = await axios.post("/api/users/login", userInfos)
       dispatch({
         type: "LOGIN_TO_ACCOUNT",
         user: loginResponse.data.user,
         token: loginResponse.data.token,
       })
       dispatch({ type: "CHANGE_LOADING", loading: false })
-      localStorage.setItem("auth-token", loginResponse.data.token)
+      cookies.set("auth-token", loginResponse.data.token, {
+        sameSite: "strict",
+        path: "/",
+        expires: new Date(new Date().getTime() + 1000 * 1000),
+      })
+
       router.push("/")
     } catch (err) {
       console.log(err.response)

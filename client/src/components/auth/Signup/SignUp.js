@@ -1,6 +1,7 @@
 import { useContext } from "react"
 import { useForm } from "react-hook-form"
 import { useHistory } from "react-router-dom"
+import Cookies from "universal-cookie"
 import axios from "axios"
 import { userContext } from "../../../context/authContext"
 import { validation } from "./validation"
@@ -8,6 +9,7 @@ import Navbar from "../../Navbar"
 import Alert from "../../shared/Alert"
 
 const SignUp = () => {
+  const cookies = new Cookies()
   const { state, dispatch } = useContext(userContext)
   const { register, handleSubmit, errors, getValues } = useForm()
   const router = useHistory()
@@ -17,22 +19,25 @@ const SignUp = () => {
     try {
       const newUser = { email, password, username }
       dispatch({ type: "CHANGE_LOADING", loading: true })
-      await axios.post(`${process.env.REACT_APP_API_SERVER}/users/register`, newUser)
-      const loginResponse = await axios.post(`${process.env.REACT_APP_API_SERVER}/users/login`, {
+      await axios.post("/api/users/register", newUser)
+      const loginResponse = await axios.post("/api/users/login", {
         email,
         password,
       })
-
       dispatch({
         type: "CREATE_ACCOUNT",
         token: loginResponse.data.token,
         user: loginResponse.data.user,
       })
       dispatch({ type: "CHANGE_LOADING", loading: false })
-      localStorage.setItem("auth-token", loginResponse.data.token)
+      cookies.set("auth-token", loginResponse.data.token, {
+        sameSite: "strict",
+        path: "/",
+        expires: new Date(new Date().getTime() + 1000 * 1000),
+      })
       router.push("/")
     } catch (err) {
-      if (err.response.data.msg) {
+      if (err.response.data.error) {
         dispatch({ type: "CHANGE_LOADING", loading: false })
         dispatch({ type: "ERROR_CREATE_ACCOUNT", error: err.response.data.msg })
       } else {

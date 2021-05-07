@@ -11,7 +11,7 @@ export const createAccount = async (req, res) => {
     let { username, email, password } = req.body
     // validate existing account
     const existingEmail = await User.findOne({ email: email })
-    if (existingEmail) return res.status(400).json({ msg: "*This account already exists." })
+    if (existingEmail) return res.status(400).json({ msg: "*This email already exists." })
     const existingUsername = await User.findOne({ username: username })
     if (existingUsername) return res.status(400).json({ msg: "*This username is unavailable." })
     if (!username) username = email
@@ -22,8 +22,13 @@ export const createAccount = async (req, res) => {
       email,
       password: passwordHash,
     })
-    const savedUser = await newUser.save()
-    res.json(savedUser)
+    const newAccount = await newUser.save()
+    const token = jwt.sign({ id: newAccount._id }, process.env.JWT_SECRET, { expiresIn: "1h" })
+
+    res.json({
+      token,
+      user: { id: newAccount._id, username: newAccount.username, email: newAccount.email },
+    })
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
@@ -39,12 +44,13 @@ export const loginIntoAccount = async (req, res) => {
     if (!user) return res.status(400).json({ msg: "No such account has been found." })
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) return res.status(400).json({ msg: "Email or password is incorrect." })
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" })
     res.json({
       token,
       user: {
         id: user._id,
         username: user.username,
+        email: user.email,
       },
     })
   } catch (err) {

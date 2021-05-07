@@ -1,7 +1,8 @@
 // this is the global store for state management
 
 export const userInitialState = {
-  userToken: null,
+  status: "offline",
+  authToken: null,
   user: null,
   loading: false,
   userError: null,

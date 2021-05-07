@@ -25,8 +25,11 @@ export const getPost = async (req, res) => {
   }
 }
 
-export const createPost = async (req, res) => {
+export const addPost = async (req, res) => {
   const { description, selectedFile, username } = req.body
+  if (!description | username) {
+    res.status(400).json({ msg: "fill the data" })
+  }
 
   const newPost = new Post({ description, selectedFile, username })
 
@@ -41,6 +44,9 @@ export const createPost = async (req, res) => {
 
 export const updatePost = async (req, res) => {}
 
-export const deletePost = async (req, res) => {}
+export const deletePost = async (req, res) => {
+  const deletedPost = await Post.findByIdAndDelete(req.params.id)
+  res.status(201).json({ post: deletedPost, msg: "post deleted" })
+}
 
 export default router

@@ -15,8 +15,7 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: action.user,
-        userToken: action.token,
-        loading: false,
+        authToken: action.token,
       }
     case ERROR_CREATE_ACCOUNT:
       return {
@@ -27,7 +26,7 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: action.user,
-        userToken: action.token,
+        authToken: action.token,
       }
     case CHANGE_LOADING:
       return {
@@ -43,14 +42,14 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: action.user,
-        userToken: action.token,
+        authToken: action.token,
       }
 
     case LOGOUT:
       return {
         ...state,
         user: action.user,
-        userToken: action.token,
+        authToken: action.token,
         userError: action.error,
       }
     case RESET_PASSWORD:
