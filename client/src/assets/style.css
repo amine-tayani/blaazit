@@ -689,11 +689,6 @@ video {
   border-color: rgba(75, 85, 99, var(--tw-border-opacity));
 }
 
-.border-blue-400 {
-  --tw-border-opacity: 1;
-  border-color: rgba(96, 165, 250, var(--tw-border-opacity));
-}
-
 .focus\:border-gray-500:focus {
   --tw-border-opacity: 1;
   border-color: rgba(107, 114, 128, var(--tw-border-opacity));
@@ -731,10 +726,6 @@ video {
 .rounded-r-lg {
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
-}
-
-.border-solid {
-  border-style: solid;
 }
 
 .border-0 {
@@ -1265,6 +1256,16 @@ video {
   color: rgba(243, 244, 246, var(--tw-text-opacity));
 }
 
+.hover\:text-red-500:hover {
+  --tw-text-opacity: 1;
+  color: rgba(239, 68, 68, var(--tw-text-opacity));
+}
+
+.hover\:text-green-500:hover {
+  --tw-text-opacity: 1;
+  color: rgba(16, 185, 129, var(--tw-text-opacity));
+}
+
 .hover\:text-blue-700:hover {
   --tw-text-opacity: 1;
   color: rgba(29, 78, 216, var(--tw-text-opacity));
@@ -1452,10 +1453,6 @@ video {
   }
 }
 
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
 .toggle-checkbox:checked {
   @apply: right-0 border-green-400;
   right: 0;
@@ -1465,6 +1462,22 @@ video {
 .toggle-checkbox:checked + .toggle-label {
   @apply: bg-green-400;
   background-color: #00f593;
+}
+
+.donutSpinner {
+  display: inline-block;
+  border: 4px solid hsl(222 100% 95%);
+  border-left-color: hsl(243 80% 62%);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: donut-spin 1.2s linear infinite;
+}
+
+@keyframes donut-spin {
+  to {
+    transform: rotate(1turn);
+  }
 }
 
 @media (min-width: 640px) {

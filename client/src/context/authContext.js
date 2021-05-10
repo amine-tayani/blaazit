@@ -1,8 +1,8 @@
 import { createContext, useEffect, useReducer } from "react"
 import { useHistory } from "react-router-dom"
+import { userInitialState } from "../store/store"
 import Cookies from "universal-cookie"
 import authReducer from "../reducers/authReducer"
-import { userInitialState } from "../store/store"
 import axios from "axios"
 
 const userContext = createContext(userInitialState)

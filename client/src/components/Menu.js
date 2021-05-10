@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect, useContext } from "react"
+import { useState, useRef, useContext } from "react"
+import { useOnClickOutside } from "../hooks/useOnClickOutside"
 import { userContext } from "../context/authContext"
 import { Transition } from "@tailwindui/react"
 import {
@@ -18,17 +19,7 @@ const Menu = () => {
   const [online, setOnline] = useState(false)
   const container = useRef()
 
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (!container.current || !container.current.contains(event.target)) {
-        if (!show) return
-        setShow(false)
-      }
-    }
-
-    window.addEventListener("click", handleOutsideClick)
-    return () => window.removeEventListener("click", handleOutsideClick)
-  }, [show, container])
+  useOnClickOutside(container, () => setShow(false))
 
   return (
     <div ref={container} className="relative cursor-pointer">

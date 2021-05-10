@@ -1,10 +1,10 @@
 import { useContext } from "react"
-import axios from "axios"
 import { useForm } from "react-hook-form"
 import { useHistory } from "react-router-dom"
-import Cookies from "universal-cookie"
 import { userContext } from "../../../context/authContext"
 import { validation } from "./validation"
+import axios from "axios"
+import Cookies from "universal-cookie"
 import Navbar from "../../Navbar"
 import Alert from "../../shared/Alert"
 const Login = () => {

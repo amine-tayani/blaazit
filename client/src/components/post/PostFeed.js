@@ -1,30 +1,16 @@
-import { useEffect, useState } from "react"
+import { useFetch } from "../../hooks/useFetch"
 import AddPost from "./AddPost"
 import Post from "./Post"
 
 const PostFeed = () => {
-  const [user, setUser] = useState("")
-
-  useEffect(() => {
-    const getAPI = async () => {
-      const response = await fetch("http://localhost:8080/")
-      const data = await response.json()
-
-      try {
-        console.log(data)
-        setUser(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getAPI()
-  }, [])
+  const endpoint = "/api/posts"
+  const { loading, data } = useFetch(endpoint)
   return (
     <>
       <AddPost />
-      <Post />
-      <Post />
-      <Post />
+      {data.map((post) => {
+        return <Post post={post} loading={loading} />
+      })}
     </>
   )
 }

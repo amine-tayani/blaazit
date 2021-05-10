@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
+import { useOnClickOutside } from "../../hooks/useOnClickOutside"
 import { Transition } from "@tailwindui/react"
 import { RiUserSettingsLine } from "react-icons/ri"
 import { IoLanguage } from "react-icons/io5"
@@ -6,27 +7,18 @@ import { FiSettings } from "react-icons/fi"
 import { HiOutlineUsers } from "react-icons/hi"
 import { HiOutlineDotsHorizontal } from "react-icons/hi"
 import { FiMessageSquare, FiBookmark } from "react-icons/fi"
-import { BsHeart } from "react-icons/bs"
-import { BiShareAlt } from "react-icons/bi"
+import { BiDownvote, BiShareAlt, BiUpvote } from "react-icons/bi"
 import { ImAttachment } from "react-icons/im"
 import { GrEmoji } from "react-icons/gr"
 import { IoImagesOutline } from "react-icons/io5"
+import moment from "moment"
 
-const Post = () => {
+const Post = ({ post, loading }) => {
   const [show, setShow] = useState(false)
   const container = useRef()
 
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (!container.current || !container.current.contains(event.target)) {
-        if (!show) return
-        setShow(false)
-      }
-    }
+  useOnClickOutside(container, () => setShow(false))
 
-    window.addEventListener("click", handleOutsideClick)
-    return () => window.removeEventListener("click", handleOutsideClick)
-  }, [show, container])
   return (
     <div className="flex p-8 bg-gray-50 rounded-md mt-6 mr-10 ml-16">
       <span className="flex-shrink-0 w-12 h-12 bg-gray-400 rounded-full">
@@ -37,7 +29,7 @@ const Post = () => {
           <div className="flex flex-col">
             <span className="font-bold">Pan Feng Shui</span>
             <span className="font-medium text-xs tracking-wide text-gray-500">
-              27 April at 9.57 PM
+              {moment(post.createdAt).fromNow()}
             </span>
           </div>
           <div ref={container} className="relative cursor-pointer">
@@ -87,10 +79,7 @@ const Post = () => {
           </div>
         </div>
         <div className="flex flex-col max-w-xl p-2 -mx-12">
-          <p className="mt-4 text-sm text-gray-700 font-serif font-medium">
-            Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
-            there live the blind texts.
-          </p>
+          <p className="mt-4 text-sm text-gray-700 font-serif font-medium">{post.description}</p>
           <div className="h-72 mt-4 max-w-2xl bg-gray-200">
             <img
               className="rounded-md"
@@ -100,21 +89,34 @@ const Post = () => {
           </div>
         </div>
         <div className="flex justify-around my-8 py-4 -mx-12  border-t border-b max-w-xl border-opacity-60">
-          <div className="flex items-center space-x-2 text-gray-600 ">
-            <FiMessageSquare color="#a5a5af" size="22" />
-            <button className="text-sm font-semibold">25 Comments</button>
-          </div>
-          <div className="flex items-center space-x-2 text-gray-600">
-            <BsHeart color="#a5a5af" size="22" />
-            <button className="text-sm font-semibold">120k Likes</button>
+          <div className="flex items-center space-x-2  ">
+            <button className="text-sm font-semibold text-gray-500 hover:text-green-500">
+              <BiUpvote size="22" />
+            </button>
+            <p className="text-sm font-semibold text-gray-600">
+              {post.upvotes > post.downvotes ? post.upvotes : post.downvotes}
+            </p>
+            <button className="text-sm font-semibold text-gray-500 hover:text-red-500">
+              <BiDownvote size="22" />
+            </button>
           </div>
           <div className="flex items-center space-x-2">
-            <BiShareAlt color="#a5a5af" size="22" />
-            <button className="text-sm font-semibold text-gray-600">200 Share</button>
+            <button className="text-sm font-semibold text-gray-500 hover:text-blue-700">
+              <FiMessageSquare size="22" />
+            </button>
+            <p className="text-sm font-semibold text-gray-600">220</p>
           </div>
-          <div className="flex items-center space-x-2">
-            <FiBookmark color="#a5a5af" size="22" />
-            <button className="text-sm font-semibold text-gray-600">12 Saved</button>
+          <div className="flex items-center space-x-2 ">
+            <button className="text-sm font-semibold text-gray-500 hover:text-blue-700">
+              <BiShareAlt size="22" />
+            </button>
+            <p className="text-sm font-semibold text-gray-600">820</p>
+          </div>
+          <div className="flex items-center space-x-2 text-gray-500 hover:text-blue-700">
+            <button className="text-sm font-semibold ">
+              <FiBookmark size="22" />
+            </button>
+            <p className="text-sm font-semibold text-gray-600">Save</p>
           </div>
         </div>
         <div className="flex -mx-12 space-x-2 items-center">

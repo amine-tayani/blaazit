@@ -1,9 +1,9 @@
 import { useContext } from "react"
 import { Route, Switch } from "react-router-dom"
+import { userContext } from "./context/authContext"
 import Home from "./components/Home"
 import Login from "./components/auth/Login/Login"
 import SignUp from "./components/auth/Signup/SignUp"
-import { userContext } from "./context/authContext"
 import Spinner from "./components/shared/Spinner"
 
 const App = () => {
