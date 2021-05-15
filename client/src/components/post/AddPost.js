@@ -5,7 +5,7 @@ import Cookies from "universal-cookie"
 
 const AddPost = () => {
   const cookies = new Cookies()
-  const inputFile = useRef()
+  const inputFile = useRef(null)
   const [file, setFile] = useState(null)
   const [description, setDescription] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
@@ -54,11 +54,23 @@ const AddPost = () => {
               </div>
             </div>
             <div className="flex items-center mr-8 cursor-pointer">
-              <input type="file" name="file" onChange={(e) => setFile(e.target.files[0])} />
+              <input
+                type="file"
+                ref={inputFile}
+                name="file"
+                hidden
+                onChange={(e) => setFile(e.target.files[0])}
+              />
+              <button
+                className="focus:outline-none transform hover:scale-105"
+                onClick={() => inputFile.current.click()}
+              >
+                <FcAddImage size={30} />
+              </button>
             </div>
           </div>
           <input
-            className=" text-white bg-indigo-500 border-0 py-2 w-full focus:outline-none rounded-b-lg font-semibold transition duration-200 ease-in-out text-center cursor-pointer"
+            className=" text-white bg-indigo-500 hover:bg-indigo-600 border-0 py-2 w-full focus:outline-none rounded-b-lg font-semibold transition duration-200 ease-in-out text-center cursor-pointer"
             type="submit"
             value=" Publish the post"
           />

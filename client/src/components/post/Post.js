@@ -44,14 +44,14 @@ const Post = ({ post, loading }) => {
             </button>
             <Transition
               show={show}
-              enter="transition ease-out duration-100 transform"
+              enter="transition ease-out duration-50 transform"
               enterFrom="opacity-0 scale-95"
               enterTo="opacity-100 scale-100"
               leave="transition ease-in duration-75 transform"
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="flex flex-col origin-top-right absolute right-0 w-48 py-2 bg-gray-50 rounded shadow-md ">
+              <div className="flex flex-col origin-top-right absolute right-0 w-48 py-2 bg-gray-50 rounded shadow-md z-10 ">
                 <div className="flex items-center py-2 px-8 text-gray-500 rounded  transition ease-in-out duration-400  hover:text-blue-700">
                   <RiUserSettingsLine size="20" />
                   <a href className=" px-4 py-2 ">
@@ -105,13 +105,13 @@ const Post = ({ post, loading }) => {
         </div>
         <div className="flex justify-around my-8 py-4 -mx-12  border-t border-b max-w-xl border-opacity-60">
           <div className="flex items-center space-x-2  ">
-            <button className="text-sm font-semibold text-gray-500 hover:text-green-500">
+            <button className="text-sm font-semibold text-gray-500 hover:text-green-500 focus:text-green-700 focus:outline-none">
               <BiUpvote size="22" />
             </button>
             <p className="text-sm font-semibold text-gray-600">
               {post.upvotes > post.downvotes ? post.upvotes : post.downvotes}
             </p>
-            <button className="text-sm font-semibold text-gray-500 hover:text-red-500">
+            <button className="text-sm font-semibold text-gray-500 hover:text-red-500 focus:text-red-600  focus:outline-none">
               <BiDownvote size="22" />
             </button>
           </div>

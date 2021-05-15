@@ -33,6 +33,7 @@ const SignUp = () => {
       cookies.set("auth-token", loginResponse.data.token, {
         sameSite: "strict",
         path: "/",
+        httpOnly: true,
         expires: new Date(new Date().getTime() + 1000 * 10000),
       })
       router.push("/")

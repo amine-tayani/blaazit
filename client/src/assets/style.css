@@ -790,6 +790,10 @@ video {
   display: grid;
 }
 
+.hidden {
+  display: none;
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -1054,10 +1058,6 @@ video {
   max-width: 42rem;
 }
 
-.object-cover {
-  object-fit: cover;
-}
-
 .object-center {
   object-position: center;
 }
@@ -1285,6 +1285,16 @@ video {
   color: rgba(29, 78, 216, var(--tw-text-opacity));
 }
 
+.focus\:text-red-600:focus {
+  --tw-text-opacity: 1;
+  color: rgba(220, 38, 38, var(--tw-text-opacity));
+}
+
+.focus\:text-green-700:focus {
+  --tw-text-opacity: 1;
+  color: rgba(4, 120, 87, var(--tw-text-opacity));
+}
+
 .uppercase {
   text-transform: uppercase;
 }
@@ -1340,6 +1350,10 @@ video {
 
 .w-full {
   width: 100%;
+}
+
+.z-10 {
+  z-index: 10;
 }
 
 .z-50 {

@@ -5,7 +5,7 @@ import User from "../models/User.js"
 
 const router = express.Router()
 
-// create account middleware
+// create new User account
 export const createAccount = async (req, res) => {
   try {
     let { username, email, password } = req.body
@@ -23,9 +23,9 @@ export const createAccount = async (req, res) => {
       password: passwordHash,
     })
     const newAccount = await newUser.save()
-    const token = jwt.sign({ id: newAccount._id }, process.env.JWT_SECRET, { expiresIn: "12h" })
+    const token = jwt.sign({ id: newAccount._id }, process.env.JWT_SECRET, { expiresIn: 10000000 })
 
-    res.json({
+    res.status(201).json({
       token,
       user: { id: newAccount._id, username: newAccount.username, email: newAccount.email },
     })
@@ -44,8 +44,8 @@ export const loginIntoAccount = async (req, res) => {
     if (!user) return res.status(400).json({ msg: "No such account has been found." })
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) return res.status(400).json({ msg: "Email or password is incorrect." })
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "12h" })
-    res.json({
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: 10000000 })
+    res.status(201).json({
       token,
       user: {
         id: user._id,
@@ -62,9 +62,9 @@ export const loginIntoAccount = async (req, res) => {
 export const checkIftokenIsValid = async (req, res) => {
   try {
     const token = req.header("x-auth-token")
-    if (!token) return res.json("no token found")
+    if (!token) return res.status(500).json("*No access token has been found")
     const verified = jwt.verify(token, process.env.JWT_SECRET)
-    if (!verified) return res.json("token not valid")
+    if (!verified) return res.status(500).json("*Access token is not valid")
     const user = await User.findById(verified.id)
     if (!user) return res.json(false)
     return res.json(true)
@@ -83,5 +83,12 @@ export const getUser = async (req, res) => {
     id: user._id,
   })
 }
+
+// desactivate or permanently delete User's Account
+
+export const deleteUserAccount = async (req, res) => {}
+
+// edit user informations
+export const editUserAccount = async (req, res) => {}
 
 export default router
