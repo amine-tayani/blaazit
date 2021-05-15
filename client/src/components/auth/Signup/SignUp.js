@@ -33,7 +33,7 @@ const SignUp = () => {
       cookies.set("auth-token", loginResponse.data.token, {
         sameSite: "strict",
         path: "/",
-        expires: new Date(new Date().getTime() + 1000 * 1000),
+        expires: new Date(new Date().getTime() + 1000 * 10000),
       })
       router.push("/")
     } catch (err) {

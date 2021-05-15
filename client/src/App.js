@@ -8,6 +8,7 @@ import Spinner from "./components/shared/Spinner"
 
 const App = () => {
   const { state } = useContext(userContext)
+
   if (state.loading) return <Spinner />
 
   return (

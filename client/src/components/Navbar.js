@@ -6,7 +6,7 @@ import Search from "./search/Search"
 import Menu from "../components/Menu"
 
 const Navbar = () => {
-  const { userData, logout } = useContext(userContext)
+  const { state, logout } = useContext(userContext)
 
   return (
     <div>
@@ -27,7 +27,9 @@ const Navbar = () => {
           </div>
 
           <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            {userData && (
+            {state.user ? (
+              <Menu handlelogout={logout} user={state.user} />
+            ) : (
               <>
                 <Link to="/signup">
                   <button className="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex font-bold text-white bg-gray-700 border-0 py-1 px-4 focus:outline-none rounded mr-2 hover:bg-gray-600 transition duration-200 ease-in-out ">
@@ -41,7 +43,6 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            <Menu handlelogout={logout} user={userData} />
           </nav>
         </div>
       </header>

@@ -23,7 +23,7 @@ export const createAccount = async (req, res) => {
       password: passwordHash,
     })
     const newAccount = await newUser.save()
-    const token = jwt.sign({ id: newAccount._id }, process.env.JWT_SECRET, { expiresIn: "1h" })
+    const token = jwt.sign({ id: newAccount._id }, process.env.JWT_SECRET, { expiresIn: "12h" })
 
     res.json({
       token,
@@ -44,7 +44,7 @@ export const loginIntoAccount = async (req, res) => {
     if (!user) return res.status(400).json({ msg: "No such account has been found." })
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) return res.status(400).json({ msg: "Email or password is incorrect." })
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" })
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "12h" })
     res.json({
       token,
       user: {

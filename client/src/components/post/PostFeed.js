@@ -9,7 +9,7 @@ const PostFeed = () => {
     <>
       <AddPost />
       {data.map((post) => {
-        return <Post post={post} loading={loading} />
+        return <Post post={post} loading={loading} key={post._id} />
       })}
     </>
   )

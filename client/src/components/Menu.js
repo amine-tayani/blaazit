@@ -42,7 +42,7 @@ const Menu = () => {
             <>
               <div className="flex space-x-4 m-4 px-4 items-center">
                 <div className="flex justify-center w-14 h-14  bg-indigo-700 rounded-full text-gray-200">
-                  <a href className="self-center">
+                  <a href="#user" className="self-center">
                     <RiUser3Line size="30" />
                   </a>
                 </div>
@@ -79,19 +79,19 @@ const Menu = () => {
               <div className="border border-r-0 border-l-0 border-gray-600 ">
                 <div className="flex items-center py-2 px-8 text-gray-400 rounded hover:bg-gray-700 hover:text-gray-100  transition ease-in-out duration-400">
                   <RiUserSettingsLine size="20" />
-                  <a href className="px-4 py-2 ">
+                  <a href="#profile" className="px-4 py-2 ">
                     Profile
                   </a>
                 </div>
                 <div className="flex items-center py-2 px-8 text-gray-400 rounded hover:bg-gray-700 hover:text-gray-100  transition ease-in-out duration-400">
                   <HiOutlineUsers size="20" />
-                  <a href className=" px-4 py-2 ">
+                  <a href="#friends" className=" px-4 py-2 ">
                     Friends
                   </a>
                 </div>
                 <div className="flex items-center py-2 px-8 text-gray-400 rounded hover:bg-gray-700 hover:text-gray-100  transition ease-in-out duration-400">
                   <FiSettings size="20" />
-                  <a href className=" px-4 py-2 ">
+                  <a href="#setting" className=" px-4 py-2 ">
                     Settings
                   </a>
                 </div>
@@ -100,14 +100,14 @@ const Menu = () => {
           )}
           <div className="flex items-center py-2 px-8 text-gray-400 rounded hover:bg-gray-700 hover:text-gray-100  transition ease-in-out duration-400">
             <IoLanguage size="20" />
-            <a href className=" px-4 py-2 ">
+            <a href="#changeLanguage" className=" px-4 py-2 ">
               Language
             </a>
           </div>
           <div className="flex justify-between items-center py-2 px-8 text-gray-400 rounded hover:bg-gray-700 hover:text-gray-100 transition ease-in-out duration-400">
             <div className="flex items-center">
               <RiMoonLine size="20" />
-              <a href className=" px-4 py-2 ">
+              <a href="darktheme" className=" px-4 py-2 ">
                 Dark theme
               </a>
             </div>
@@ -137,7 +137,7 @@ const Menu = () => {
               className="flex items-center py-2 px-8 text-gray-400 rounded hover:bg-gray-700 hover:text-gray-100  transition ease-in-out duration-400 focus:outline-none"
             >
               <RiLogoutBoxLine size="20" />
-              <a href className=" px-4 py-2 ">
+              <a href="#" className=" px-4 py-2 ">
                 Log Out
               </a>
             </button>

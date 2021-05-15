@@ -1,16 +1,19 @@
 import mongoose from "mongoose"
 
 const postSchema = mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+  description: {
+    type: String,
+    required: true,
+    trim: true,
   },
-  comments: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Comment",
+  file_name: {
+    type: String,
+    required: true,
   },
-  description: String,
-  selectedFile: String,
+  file_extension: {
+    type: String,
+    required: true,
+  },
   upvotes: {
     type: Number,
     default: 0,

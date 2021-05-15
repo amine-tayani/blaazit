@@ -12,10 +12,13 @@ import { ImAttachment } from "react-icons/im"
 import { GrEmoji } from "react-icons/gr"
 import { IoImagesOutline } from "react-icons/io5"
 import moment from "moment"
+import QierPlayer from "qier-player"
 
 const Post = ({ post, loading }) => {
   const [show, setShow] = useState(false)
   const container = useRef()
+  const imageRegEx = /^image/
+  const videoRegEx = /^video/
 
   useOnClickOutside(container, () => setShow(false))
 
@@ -80,12 +83,24 @@ const Post = ({ post, loading }) => {
         </div>
         <div className="flex flex-col max-w-xl p-2 -mx-12">
           <p className="mt-4 text-sm text-gray-700 font-serif font-medium">{post.description}</p>
-          <div className="h-72 mt-4 max-w-2xl bg-gray-200">
-            <img
-              className="rounded-md"
-              src="https://placeimg.com/560/300/nature?t=1619562270605"
-              alt=""
-            />
+          <div className="h-72 mt-4 max-w-2xl bg-gray-200 ">
+            {videoRegEx.test(post.file_extension) && (
+              <QierPlayer
+                src720p
+                src480p
+                width={560}
+                height={300}
+                themeColor="#3c40c6"
+                srcOrigin={`${process.env.PUBLIC_URL}/uploads/${post.file_name}`}
+              />
+            )}
+            {imageRegEx.test(post.file_extension) && (
+              <img
+                className="w-full h-full object-center rounded-md"
+                src={`${process.env.PUBLIC_URL}/uploads/${post.file_name}`}
+                alt=""
+              />
+            )}
           </div>
         </div>
         <div className="flex justify-around my-8 py-4 -mx-12  border-t border-b max-w-xl border-opacity-60">
