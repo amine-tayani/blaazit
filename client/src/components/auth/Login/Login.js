@@ -24,6 +24,11 @@ const Login = () => {
         user: loginResponse.data.user,
         token: loginResponse.data.token,
       })
+      dispatch({
+        type: "CHECK_IF_IS_LOGGED",
+        token: loginResponse.data.token,
+        auth: true,
+      })
       dispatch({ type: "CHANGE_LOADING", loading: false })
       cookies.set("auth-token", loginResponse.data.token, {
         sameSite: "strict",

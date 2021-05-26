@@ -43,6 +43,7 @@ const authReducer = (state, action) => {
         ...state,
         user: action.user,
         authToken: action.token,
+        isAuthenticated: action.auth,
       }
 
     case LOGOUT:

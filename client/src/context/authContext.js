@@ -16,6 +16,7 @@ const UserProvider = ({ children }) => {
   const logout = () => {
     // set token and user to null
     dispatch({ type: "LOGOUT", user: null, token: null })
+    dispatch({ type: "CHECK_IF_IS_LOGGED", auth: false })
     cookies.remove("auth-token")
     router.push("/login")
   }
@@ -23,6 +24,11 @@ const UserProvider = ({ children }) => {
     const checkLoggedIn = async () => {
       let accessToken = cookies.get("auth-token")
       if (accessToken === null) {
+        dispatch({
+          type: "CHECK_IF_IS_LOGGED",
+          token: accessToken,
+          auth: false,
+        })
         cookies.set("auth-token", "")
         accessToken = ""
       }
@@ -34,7 +40,12 @@ const UserProvider = ({ children }) => {
         const userResponse = await axios.get("http://localhost:5000/api/users/", {
           headers: { "x-auth-token": accessToken },
         })
-        dispatch({ type: "CHECK_IF_IS_LOGGED", token: accessToken, user: userResponse.data })
+        dispatch({
+          type: "CHECK_IF_IS_LOGGED",
+          token: accessToken,
+          user: userResponse.data,
+          auth: true,
+        })
       }
     }
     checkLoggedIn()

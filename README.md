@@ -10,5 +10,5 @@ This section list the major frameworks and libraries that have been used for bui
 
 - [React JS](http://reactjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [Ant design](http://ant.design/)
-- [Firebase](https://firebase.google.com/)
+- [Express Js](https://expressjs.com/)
+- [MongoDB](https://mongodb.com/)

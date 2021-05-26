@@ -14,7 +14,7 @@ const Home = () => {
           <PostFeed />
         </div>
         <div className="col-span-2">
-          <div className="bg-indigo-800 h-screen w-full"></div>
+          <div className="bg-indigo-800 w-full"> </div>
         </div>
       </div>
     </>

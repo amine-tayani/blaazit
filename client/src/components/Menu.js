@@ -2,6 +2,10 @@ import { useState, useRef, useContext } from "react"
 import { useOnClickOutside } from "../hooks/useOnClickOutside"
 import { userContext } from "../context/authContext"
 import { Transition } from "@tailwindui/react"
+import { GoPrimitiveDot } from "react-icons/go"
+import { IoLanguage } from "react-icons/io5"
+import { FiSettings } from "react-icons/fi"
+import { HiOutlineUsers } from "react-icons/hi"
 import {
   RiUser3Line,
   RiUserSettingsLine,
@@ -9,10 +13,6 @@ import {
   RiLogoutBoxLine,
   RiLoginBoxLine,
 } from "react-icons/ri"
-import { GoPrimitiveDot } from "react-icons/go"
-import { IoLanguage } from "react-icons/io5"
-import { FiSettings } from "react-icons/fi"
-import { HiOutlineUsers } from "react-icons/hi"
 const Menu = () => {
   const { state, logout } = useContext(userContext)
   const [show, setShow] = useState(false)
@@ -38,7 +38,7 @@ const Menu = () => {
         leaveTo="opacity-0 scale-95"
       >
         <div className="flex flex-col origin-top-right absolute right-0 w-64 py-2 mt-1 bg-gray-800 rounded shadow-md ">
-          {state.user && (
+          {state.isAuthenticated && (
             <>
               <div className="flex space-x-4 m-4 px-4 items-center">
                 <div className="flex justify-center w-14 h-14  bg-indigo-700 rounded-full text-gray-200">
@@ -96,35 +96,36 @@ const Menu = () => {
                   </a>
                 </div>
               </div>
+              <div className="flex items-center py-2 px-8 text-gray-400 rounded hover:bg-gray-700 hover:text-gray-100  transition ease-in-out duration-400">
+                <IoLanguage size="20" />
+                <a href="#changeLanguage" className=" px-4 py-2 ">
+                  Language
+                </a>
+              </div>
+              <div className="flex justify-between items-center py-2 px-8 text-gray-400 rounded hover:bg-gray-700 hover:text-gray-100 transition ease-in-out duration-400">
+                <div className="flex items-center">
+                  <RiMoonLine size="20" />
+                  <a href="darktheme" className=" px-4 py-2 ">
+                    Dark theme
+                  </a>
+                </div>
+                <div className="relative inline-block w-8 align-middle select-none ">
+                  <input
+                    type="checkbox"
+                    name="dark"
+                    id="dark"
+                    className="toggle-checkbox absolute block w-4 h-4 rounded-full bg-gray-100 border-2 appearance-none cursor-pointer"
+                  />
+                  <label
+                    htmlFor="dark"
+                    className="toggle-label block overflow-hidden h-4 rounded-full ring-2 ring-gray-200 bg-gray-900 cursor-pointer"
+                  ></label>
+                </div>
+              </div>
             </>
           )}
-          <div className="flex items-center py-2 px-8 text-gray-400 rounded hover:bg-gray-700 hover:text-gray-100  transition ease-in-out duration-400">
-            <IoLanguage size="20" />
-            <a href="#changeLanguage" className=" px-4 py-2 ">
-              Language
-            </a>
-          </div>
-          <div className="flex justify-between items-center py-2 px-8 text-gray-400 rounded hover:bg-gray-700 hover:text-gray-100 transition ease-in-out duration-400">
-            <div className="flex items-center">
-              <RiMoonLine size="20" />
-              <a href="darktheme" className=" px-4 py-2 ">
-                Dark theme
-              </a>
-            </div>
-            <div className="relative inline-block w-8 align-middle select-none ">
-              <input
-                type="checkbox"
-                name="dark"
-                id="dark"
-                className="toggle-checkbox absolute block w-4 h-4 rounded-full bg-gray-100 border-2 appearance-none cursor-pointer"
-              />
-              <label
-                htmlFor="dark"
-                className="toggle-label block overflow-hidden h-4 rounded-full ring-2 ring-gray-200 bg-gray-900 cursor-pointer"
-              ></label>
-            </div>
-          </div>
-          {!state.user ? (
+
+          {!state.isAuthenticated ? (
             <div className="flex items-center py-2 px-8 text-gray-400 rounded hover:bg-gray-700 hover:text-gray-100  transition ease-in-out duration-400">
               <RiLoginBoxLine size="20" />
               <a href="/login" className=" px-4 py-2 ">
@@ -137,7 +138,7 @@ const Menu = () => {
               className="flex items-center py-2 px-8 text-gray-400 rounded hover:bg-gray-700 hover:text-gray-100  transition ease-in-out duration-400 focus:outline-none"
             >
               <RiLogoutBoxLine size="20" />
-              <a href="#" className=" px-4 py-2 ">
+              <a href="#f" className=" px-4 py-2 ">
                 Log Out
               </a>
             </button>

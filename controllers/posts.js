@@ -70,7 +70,9 @@ export const addPost = async (req, res) => {
   }
 }
 
-export const updatePost = async (req, res) => {}
+export const updatePost = async (req, res) => {
+  console.log(req.body)
+}
 
 export const deletePost = async (req, res) => {
   const deletedPost = await Post.findByIdAndDelete(req.params.id)

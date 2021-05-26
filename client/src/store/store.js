@@ -6,4 +6,5 @@ export const userInitialState = {
   user: null,
   loading: false,
   userError: null,
+  isAuthenticated: false,
 }

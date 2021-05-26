@@ -27,7 +27,7 @@ const Navbar = () => {
           </div>
 
           <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            {state.user ? (
+            {state.isAuthenticated ? (
               <Menu handlelogout={logout} user={state.user} />
             ) : (
               <>

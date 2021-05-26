@@ -1260,6 +1260,16 @@ video {
   color: rgba(220, 38, 38, var(--tw-text-opacity));
 }
 
+.text-red-700 {
+  --tw-text-opacity: 1;
+  color: rgba(185, 28, 28, var(--tw-text-opacity));
+}
+
+.text-green-700 {
+  --tw-text-opacity: 1;
+  color: rgba(4, 120, 87, var(--tw-text-opacity));
+}
+
 .text-blue-500 {
   --tw-text-opacity: 1;
   color: rgba(59, 130, 246, var(--tw-text-opacity));
@@ -1270,29 +1280,9 @@ video {
   color: rgba(243, 244, 246, var(--tw-text-opacity));
 }
 
-.hover\:text-red-500:hover {
-  --tw-text-opacity: 1;
-  color: rgba(239, 68, 68, var(--tw-text-opacity));
-}
-
-.hover\:text-green-500:hover {
-  --tw-text-opacity: 1;
-  color: rgba(16, 185, 129, var(--tw-text-opacity));
-}
-
 .hover\:text-blue-700:hover {
   --tw-text-opacity: 1;
   color: rgba(29, 78, 216, var(--tw-text-opacity));
-}
-
-.focus\:text-red-600:focus {
-  --tw-text-opacity: 1;
-  color: rgba(220, 38, 38, var(--tw-text-opacity));
-}
-
-.focus\:text-green-700:focus {
-  --tw-text-opacity: 1;
-  color: rgba(4, 120, 87, var(--tw-text-opacity));
 }
 
 .uppercase {
